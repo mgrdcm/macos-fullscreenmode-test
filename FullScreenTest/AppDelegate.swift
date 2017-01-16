@@ -8,6 +8,12 @@
 
 import Cocoa
 
+func coregraphicsReconfiguration(display:CGDirectDisplayID, flags:CGDisplayChangeSummaryFlags, userInfo:UnsafeMutableRawPointer?) -> Void
+{
+    print("Core Graphics Reconfiguration")
+}
+
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -19,7 +25,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        // Try registering with Notification Center to get screen parameter change notices
+        // Register with Core Graphics for reconfiguration callbacks
+        CGDisplayRegisterReconfigurationCallback(coregraphicsReconfiguration, nil)
+
+        // Register with Notification Center to get screen parameter change notices
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationcenterDidChangeScreenParameters(_:)), name: NSNotification.Name.NSApplicationDidChangeScreenParameters, object: nil)
     }
 
@@ -30,7 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateScreens()
     }
 
-    // Normal app delegate method.  No configuration required.
+    // Normal app delegate method.  No registration required.
     func applicationDidChangeScreenParameters(_ notification: Notification) {
         print("Application Did Change Screen Parameters: \(notification.name)")
         
