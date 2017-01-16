@@ -17,6 +17,10 @@ And none of them seem to get notifications when a screen disconnects when in ful
 
 This is probably related to the fact that macOS's System Preferences > Displays cannot change the resolution of any display while a view is in full screen mode.
 
+## Cause
+
+As kinda [documented in CGDisplayCapture](https://developer.apple.com/reference/coregraphics/1456259-cgdisplaycapture#discussion), if a display is captured by Core Graphics, displays cannot have their configurations changed.
+
 ## Testing
 
 Run the included application with at least one external screen.
@@ -25,6 +29,7 @@ Click the "Enter" button to start full screen mode.
 
 Disconnect a display.  Note:  If you get a black screen, just hit command-Q to quit the application.
 
-## Theories
+## Mitigating
 
-My guess so far is that it has to do with the display being captured by NSView's enterFullScreenMode.
+1. Perhaps periodically release the display to allow notifications to present and then recapture?
+2. Do views get notifications of parameters changing when in full screen mode?
