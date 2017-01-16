@@ -22,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var theView: NSView!
     
     lazy var screens = NSScreen.screens()
+    var screen: NSScreen? = nil
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
@@ -58,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func enterFull(_ sender: NSButton) {
         if ((screens?.count)! > 1) {
-            let screen = screens?[1]
+            screen = screens?[1]
             let fullScreenOptions = [NSFullScreenModeAllScreens: false as NSNumber]
             
             theView.enterFullScreenMode(screen!, withOptions: fullScreenOptions)
@@ -68,6 +69,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func exitFull(_ sender: NSButton) {
         if (theView.isInFullScreenMode) {
             theView.exitFullScreenMode()
+        }
+        
+        screen = nil
+    }
+    
+    @IBAction func releaseDisplays(_ sender: NSButton) {
+        CGReleaseAllDisplays()
+    }
+
+    @IBAction func pollDisplays(_ sender: NSButton) {
+        if (screen != nil) {
+            let did = screen!.deviceDescription["NSScreenNumber"] as! CGDirectDisplayID
+
+            CGDisplayRelease(did)
+            CGDisplayCapture(did)
         }
     }
 }
