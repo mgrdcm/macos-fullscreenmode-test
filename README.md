@@ -2,7 +2,7 @@
 
 ## Goal
 
-To be able to react when a screen has been disconnected while an application's view is in [full screen mode](https://developer.apple.com/reference/appkit/nsview/1483780-enterfullscreenmode).
+To be able to react when a screen has been disconnected while an application's view is in full screen mode using [NSView enterFullScreenMode](https://developer.apple.com/reference/appkit/nsview/1483780-enterfullscreenmode).
 
 ## Problem
 
@@ -25,3 +25,6 @@ Click the "Enter" button to start full screen mode.
 
 Disconnect a display.  Note:  If you get a black screen, just hit command-Q to quit the application.
 
+## Theories
+
+My guess so far is that it has to do with the display being captured by NSView's enterFullScreenMode.
