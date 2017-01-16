@@ -34,14 +34,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Registered for this one with Notification Center above.
     func notificationcenterDidChangeScreenParameters(_ notification: Notification) {
-        print("Notification Center Did Change Screen Parameters: \(notification.name)")
+        print("Notification Center Did Change Screen Parameters: \(notification.name.rawValue)")
         
         updateScreens()
     }
 
     // Normal app delegate method.  No registration required.
     func applicationDidChangeScreenParameters(_ notification: Notification) {
-        print("Application Did Change Screen Parameters: \(notification.name)")
+        print("Application Did Change Screen Parameters: \(notification.name.rawValue)")
         
         updateScreens()
     }
