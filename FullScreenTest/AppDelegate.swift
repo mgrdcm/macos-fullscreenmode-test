@@ -50,11 +50,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Exit full screen mode and update screen list.
     func updateScreens()
     {
-        if (theView.isInFullScreenMode) {
+        screens = NSScreen.screens()
+        
+        let stillThere = (screen != nil) && (screens?.contains(screen!))!
+
+        print("Is display still there? \(stillThere)")
+        
+        if (!stillThere && theView.isInFullScreenMode) {
             theView.exitFullScreenMode(options: nil)
         }
-        
-        screens = NSScreen.screens()
     }
     
     @IBAction func enterFull(_ sender: NSButton) {
@@ -83,6 +87,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let did = screen!.deviceDescription["NSScreenNumber"] as! CGDirectDisplayID
 
             CGDisplayRelease(did)
+            
+            // FIXME:  When re-capturing, the display gets painted black so...  Not a good option.
             CGDisplayCapture(did)
         }
     }
