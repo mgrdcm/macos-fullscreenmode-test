@@ -57,6 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("Is display still there? \(stillThere)")
         
         if (!stillThere && theView.isInFullScreenMode) {
+            print("Exiting fullscreen mode.")
             theView.exitFullScreenMode(options: nil)
         }
     }
