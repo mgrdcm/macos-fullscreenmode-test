@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var theView: NSView!
     
-    lazy var screens = NSScreen.screens()
+    lazy var screens = NSScreen.screens
     var screen: NSScreen? = nil
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -30,11 +30,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         CGDisplayRegisterReconfigurationCallback(coregraphicsReconfiguration, nil)
 
         // Register with Notification Center to get screen parameter change notices
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationcenterDidChangeScreenParameters(_:)), name: NSNotification.Name.NSApplicationDidChangeScreenParameters, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationcenterDidChangeScreenParameters(_:)), name: NSApplication.didChangeScreenParametersNotification, object: nil)
     }
 
     // Registered for this one with Notification Center above.
-    func notificationcenterDidChangeScreenParameters(_ notification: Notification) {
+    @objc func notificationcenterDidChangeScreenParameters(_ notification: Notification) {
         print("Notification Center Did Change Screen Parameters: \(notification.name.rawValue)")
         
         updateScreens()
@@ -50,9 +50,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Exit full screen mode and update screen list.
     func updateScreens()
     {
-        screens = NSScreen.screens()
+        screens = NSScreen.screens
         
-        let stillThere = (screen != nil) && (screens?.contains(screen!))!
+        let stillThere = (screen != nil) && (screens.contains(screen!))
 
         print("Is display still there? \(stillThere)")
         
@@ -62,9 +62,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @IBAction func enterFull(_ sender: NSButton) {
-        if ((screens?.count)! > 1) {
-            screen = screens?[1]
-            let fullScreenOptions = [NSFullScreenModeAllScreens: false as NSNumber]
+        if ((screens.count) > 1) {
+            screen = screens[1]
+            let fullScreenOptions = [NSView.FullScreenModeOptionKey.fullScreenModeAllScreens: false as NSNumber]
+            
+            print("Entering full screen on \(screen.debugDescription)")
             
             theView.enterFullScreenMode(screen!, withOptions: fullScreenOptions)
         }
@@ -84,7 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBAction func pollDisplays(_ sender: NSButton) {
         if (screen != nil) {
-            let did = screen!.deviceDescription["NSScreenNumber"] as! CGDirectDisplayID
+            let did = screen!.deviceDescription[NSDeviceDescriptionKey(rawValue: "NSScreenNumber")] as! CGDirectDisplayID
 
             CGDisplayRelease(did)
             
