@@ -4,6 +4,12 @@
 
 To be able to react when a screen has been disconnected while an application's view is in full screen mode using [NSView enterFullScreenMode](https://developer.apple.com/reference/appkit/nsview/1483780-enterfullscreenmode).
 
+## UPDATES
+
+2020-06-26:  I have opened a case with Apple Developer Support and am working through this issue with engineers there but there is no resolution yet.
+
+2020-11-20:  This application *does* get the desired notifications via all three below notification methods on a 2020 M1 Mac Mini running macOS Big Sur 11.0.1 when the display is captured.  Testing on a 2018 Mac Mini running 11.0.1 still does not receive the notifications.  I've updated Apple dev support with this information.
+
 ## Problem
 
 It appears that when a view is in full screen mode, there's no way to get a notification from macOS.
